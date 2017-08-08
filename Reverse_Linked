@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+//链表反序:通过两个局部变量分别指示相邻的两个节点,将后一个节点的next指针
+//指向前一个节点,遍历链表.first初始化为NULL,以便将反序前链表头next指针置为NULL
+
+struct Node
+{
+	int value;
+	struct Node *next;
+};
+
+typedef struct Node PNode;
+
+PNode *reverse_List(PNode *pHead)
+{
+	PNode *first = NULL;
+	PNode *second = pHead;
+	
+	assert(NULL != pHead);
+	
+	while(NULL != pHead)
+	{
+		second = pHead -> next;
+		pHead -> next = first;
+		first = pHead;
+		pHead = second;
+	}
+	return first;
+}
+
+void printf_List(PNode *pHead)
+{
+	while(pHead != NULL)
+	{
+		printf("%d",pHead -> value);
+		pHead = pHead -> next;
+	}
+}
+
+int main(int argc,char *argv[])
+{
+	PNode p1,p2,p3;
+	
+	p1.value = 5;
+	p1.next = &p2;
+	
+	p2.value = 8;
+	p2.next = &p3;
+	
+	p3.value = 10;
+	p3.next = NULL;
+	
+	PNode *pHead = &p1;
+	
+	printf_List(pHead);
+	printf("\n");
+	pHead = reverse_List(pHead);
+	printf_List(pHead);
+	printf("\n");
+	return 0;
+}
